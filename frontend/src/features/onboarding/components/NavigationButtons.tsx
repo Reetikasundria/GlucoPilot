@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Sparkles } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -20,6 +20,7 @@ export default function NavigationButtons({
   return (
     <div className="mt-10 flex justify-between">
       <Button
+        type="button"
         variant="outline"
         disabled={isFirst || loading}
         onClick={onPrevious}
@@ -29,17 +30,21 @@ export default function NavigationButtons({
       </Button>
 
       <Button
-        disabled={loading}
+        type="button"
         onClick={onNext}
       >
-        {loading
-          ? "Checking..."
-          : isLast
-          ? "Finish"
-          : "Continue"}
-
-        {!loading && !isLast && (
-          <ArrowRight className="ml-2 h-4 w-4" />
+        {loading ? (
+          "Creating..."
+        ) : isLast ? (
+          <>
+            <Sparkles className="mr-2 h-4 w-4" />
+            Create My AI Assistant
+          </>
+        ) : (
+          <>
+            Continue
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </>
         )}
       </Button>
     </div>

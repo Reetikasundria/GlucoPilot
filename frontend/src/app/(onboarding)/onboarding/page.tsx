@@ -19,6 +19,7 @@ import DiabetesInfo from "@/features/onboarding/steps/DiabetesInfo";
 import Goals from "@/features/onboarding/steps/Goals";
 import Lifestyle from "@/features/onboarding/steps/Lifestyle";
 import Treatment from "@/features/onboarding/steps/Treatment";
+import MealPreferences from "@/features/onboarding/steps/MealPreferences";
 
 export default function OnboardingPage() {
   const {
@@ -35,7 +36,8 @@ export default function OnboardingPage() {
     <DiabetesInfo key={2} />,
     <Treatment key={3} />,
     <Lifestyle key={4} />,
-    <Goals key={5} />,
+    <MealPreferences key={5} />,
+    <Goals key={6} />,
   ];
 
   return (

@@ -43,6 +43,18 @@ export const defaultValues: OnboardingFormData = {
 
   foodPreference: "",
 
+  favoriteCuisines: [],
+
+  mealsPerDay: "",
+
+  breakfastTime: "",
+
+  lunchTime: "",
+
+  dinnerTime: "",
+
+  snacks: false,
+
   country: "",
 
   state: "",

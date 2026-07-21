@@ -4,84 +4,78 @@ import { useFormContext } from "react-hook-form";
 
 import CardContainer from "../components/CardContainer";
 import SectionTitle from "../components/SectionTitle";
-import SelectionCard from "../components/SelectionCard";
 
-const GOALS = [
+const goals = [
   {
-    value: "stable_glucose",
-    title: "Stable Blood Sugar",
-    description: "Reduce highs and lows.",
-    icon: "📈",
-  },
-  {
-    value: "reduce_hba1c",
-    title: "Reduce HbA1c",
-    description: "Improve long-term control.",
     icon: "🩸",
+    title: "Better Glucose Control",
   },
   {
-    value: "meal_planning",
-    title: "Better Meal Planning",
-    description: "Know what to eat.",
-    icon: "🥗",
+    icon: "📉",
+    title: "Reduce HbA1c",
   },
   {
-    value: "weight_loss",
-    title: "Weight Loss",
-    description: "Healthy fat reduction.",
     icon: "⚖️",
+    title: "Lose Weight",
   },
   {
-    value: "weight_gain",
-    title: "Weight Gain",
-    description: "Healthy muscle gain.",
-    icon: "🏋️",
+    icon: "💪",
+    title: "Gain Muscle",
   },
   {
-    value: "energy",
-    title: "Improve Energy",
-    description: "Feel energetic all day.",
-    icon: "⚡",
-  },
-  {
-    value: "sleep",
-    title: "Better Sleep",
-    description: "Improve sleep quality.",
     icon: "😴",
+    title: "Better Sleep",
   },
   {
-    value: "stress",
-    title: "Stress Management",
-    description: "Reduce glucose spikes caused by stress.",
-    icon: "🧘",
+    icon: "🧠",
+    title: "Reduce Stress",
   },
   {
-    value: "exercise",
-    title: "Exercise Guidance",
-    description: "Workout safely with diabetes.",
     icon: "🏃",
+    title: "Exercise Regularly",
   },
   {
-    value: "doctor_reports",
-    title: "Doctor Reports",
-    description: "Generate weekly reports.",
-    icon: "📄",
+    icon: "📚",
+    title: "Balance Study & Health",
+  },
+  {
+    icon: "❤️",
+    title: "Heart Health",
+  },
+  {
+    icon: "👁",
+    title: "Eye Health",
+  },
+  {
+    icon: "🦶",
+    title: "Foot Care",
   },
 ];
 
 export default function Goals() {
   const { watch, setValue } = useFormContext();
 
-  const selectedGoals = watch("goals") || [];
+  const selected = watch("goals") || [];
 
   const toggleGoal = (goal: string) => {
-    if (selectedGoals.includes(goal)) {
+    if (selected.includes(goal)) {
       setValue(
         "goals",
-        selectedGoals.filter((g: string) => g !== goal)
+        selected.filter((g: string) => g !== goal),
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        }
       );
     } else {
-      setValue("goals", [...selectedGoals, goal]);
+      setValue(
+        "goals",
+        [...selected, goal],
+        {
+          shouldValidate: true,
+          shouldDirty: true,
+        }
+      );
     }
   };
 
@@ -90,20 +84,35 @@ export default function Goals() {
       <div className="space-y-8">
         <SectionTitle
           title="Your Health Goals"
-          subtitle="Choose everything you'd like GlucoPilot to help you with."
+          subtitle="Select everything you want GlucoPilot to help you achieve."
         />
 
-        <div className="space-y-4">
-          {GOALS.map((goal) => (
-            <SelectionCard
-              key={goal.value}
-              title={goal.title}
-              description={goal.description}
-              icon={goal.icon}
-              selected={selectedGoals.includes(goal.value)}
-              onClick={() => toggleGoal(goal.value)}
-            />
-          ))}
+        <div className="flex flex-wrap gap-3">
+          {goals.map((goal) => {
+            const active = selected.includes(goal.title);
+
+            return (
+              <button
+                key={goal.title}
+                type="button"
+                onClick={() => toggleGoal(goal.title)}
+                className={`rounded-full border px-5 py-3 transition-all ${
+                  active
+                    ? "border-emerald-500 bg-emerald-500 text-white"
+                    : "border-border hover:border-emerald-400"
+                }`}
+              >
+                {goal.icon} {goal.title}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="rounded-xl border bg-muted/30 p-5">
+          <p className="text-sm text-muted-foreground">
+            💡 These goals help GlucoPilot personalize your daily plans,
+            meal recommendations, reminders and AI insights.
+          </p>
         </div>
       </div>
     </CardContainer>

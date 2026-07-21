@@ -8,7 +8,12 @@ import { Label } from "@/components/ui/label";
 type Props = {
   name: string;
   label: string;
-  type?: "text" | "email" | "password" | "number";
+  type?:
+    | "text"
+    | "email"
+    | "password"
+    | "number"
+    | "time";
   placeholder?: string;
 };
 
@@ -27,10 +32,7 @@ export default function FormInput({
 
   return (
     <div className="space-y-2">
-      <Label
-        htmlFor={name}
-        className="text-sm font-medium"
-      >
+      <Label htmlFor={name}>
         {label}
       </Label>
 
@@ -38,7 +40,9 @@ export default function FormInput({
         id={name}
         type={type}
         placeholder={placeholder}
-        {...register(name)}
+        {...register(name, {
+          valueAsNumber: type === "number",
+        })}
       />
 
       {error && (

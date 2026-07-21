@@ -61,6 +61,18 @@ export const onboardingSchema = z.object({
 
   foodPreference: z.string(),
 
+  favoriteCuisines: z.array(z.string()),
+
+  mealsPerDay: z.string(),
+
+  breakfastTime: z.string(),
+
+  lunchTime: z.string(),
+
+  dinnerTime: z.string(),
+
+  snacks: z.boolean(),
+
   activityLevel: z.string(),
 
   country: z.string(),
@@ -68,7 +80,9 @@ export const onboardingSchema = z.object({
   state: z.string(),
 
   // Goals
-  goals: z.array(z.string()),
+  goals: z
+  .array(z.string())
+  .min(1, "Please select at least one goal"),
 });
 
 export type OnboardingFormInput = z.input<typeof onboardingSchema>;

@@ -1,37 +1,46 @@
 "use client";
 
-import SelectionCard from "./SelectionCard";
-
 type Option = {
   value: string;
   title: string;
-  description?: string;
   icon?: string;
 };
 
 type Props = {
   value: string;
-  onChange: (value: string) => void;
   options: Option[];
+  onChange: (value: string) => void;
 };
 
 export default function SelectionGroup({
   value,
-  onChange,
   options,
+  onChange,
 }: Props) {
   return (
-    <div className="space-y-4">
-      {options.map((option) => (
-        <SelectionCard
-          key={option.value}
-          title={option.title}
-          description={option.description}
-          icon={option.icon}
-          selected={value === option.value}
-          onClick={() => onChange(option.value)}
-        />
-      ))}
+    <div className="flex flex-wrap gap-3">
+      {options.map((option) => {
+        const selected = value === option.value;
+
+        return (
+          <button
+            key={option.value}
+            type="button"
+            onClick={() => onChange(option.value)}
+            className={`rounded-full border px-5 py-3 transition-all ${
+              selected
+                ? "border-emerald-500 bg-emerald-500 text-white"
+                : "border-border hover:border-emerald-400"
+            }`}
+          >
+            <span className="mr-2">
+              {option.icon}
+            </span>
+
+            {option.title}
+          </button>
+        );
+      })}
     </div>
   );
 }

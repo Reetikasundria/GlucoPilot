@@ -3,12 +3,13 @@ import {
     HeartPulse,
     Pill,
     Activity,
+    UtensilsCrossed,
     Target,
   } from "lucide-react";
   
   export const ONBOARDING_STEPS = [
     {
-      title: "Basic Information",
+      title: "Basic",
       icon: UserRound,
     },
     {
@@ -22,6 +23,10 @@ import {
     {
       title: "Lifestyle",
       icon: Activity,
+    },
+    {
+      title: "Meals",
+      icon: UtensilsCrossed,
     },
     {
       title: "Goals",
