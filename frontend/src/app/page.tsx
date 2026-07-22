@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-gradient-to-b from-white to-emerald-50 px-6">
+    <main className="flex min-h-screen items-center justify-center bg-linear-to-b from-white to-emerald-50 px-6">
       <div className="max-w-3xl text-center">
         <div className="mb-8 flex justify-center">
           <div className="rounded-full bg-emerald-100 p-5">

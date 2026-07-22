@@ -1,45 +1,37 @@
 "use client";
 
-import { Bell } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function DashboardHeader() {
-  const hour = new Date().getHours();
+  const [user, setUser] = useState("User");
 
-  let greeting = "Good Evening";
+  useEffect(() => {
+    const storedUser = localStorage.getItem("glucopilot_user");
 
-  if (hour < 12) greeting = "Good Morning";
-  else if (hour < 17) greeting = "Good Afternoon";
-
-  let user = "User";
-
-  if (typeof window !== "undefined") {
-    const raw = localStorage.getItem("glucopilot-user");
-
-    if (raw) {
-      const data = JSON.parse(raw);
-      user = data.fullName || "User";
+    if (storedUser) {
+      setUser(storedUser);
     }
-  }
+  }, []);
 
   return (
     <header className="flex items-center justify-between">
       <div>
-        <p className="text-muted-foreground text-sm">
-          {greeting}
+        <p className="text-sm text-muted-foreground">
+          Good morning
         </p>
 
         <h1 className="text-3xl font-bold">
           {user} 👋
         </h1>
 
-        <p className="mt-2 text-sm text-emerald-600">
-          Let's keep your glucose stable today.
+        <p className="mt-2 text-muted-foreground">
+          Here's your personalized health overview for today.
         </p>
       </div>
 
-      <button className="rounded-full border p-3 hover:bg-muted transition">
-        <Bell className="h-5 w-5" />
-      </button>
+      <div className="hidden rounded-full bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-700 sm:block">
+        AI Monitoring Active
+      </div>
     </header>
   );
 }
