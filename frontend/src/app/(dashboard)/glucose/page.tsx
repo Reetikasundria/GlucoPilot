@@ -8,6 +8,10 @@ import {
 
 import { Button } from "@/components/ui/button";
 
+import LoadingState from "@/components/shared/LoadingState";
+import ErrorState from "@/components/shared/ErrorState";
+import EmptyState from "@/components/shared/EmptyState";
+
 import GlucoseChart from "@/features/glucose/components/GlucoseChart";
 import GlucoseFilters from "@/features/glucose/components/GlucoseFilters";
 import GlucoseSummary from "@/features/glucose/components/GlucoseSummary";
@@ -26,16 +30,21 @@ export default function GlucosePage() {
     inRangePercentage,
 
     isLogFormOpen,
+    loading,
+    error,
 
     setFilters,
     setIsLogFormOpen,
 
     addReading,
+    reloadReadings,
   } = useGlucose();
 
   return (
     <main className="min-h-screen bg-muted/20 px-4 py-6 sm:px-6 lg:px-10">
       <div className="mx-auto max-w-6xl space-y-6">
+
+        {/* Header */}
         <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
           <div>
             <div className="flex items-center gap-2">
@@ -53,9 +62,7 @@ export default function GlucosePage() {
 
           <Button
             onClick={() =>
-              setIsLogFormOpen(
-                !isLogFormOpen
-              )
+              setIsLogFormOpen(!isLogFormOpen)
             }
           >
             <Plus className="mr-2 h-4 w-4" />
@@ -64,6 +71,7 @@ export default function GlucosePage() {
           </Button>
         </div>
 
+        {/* Information Banner */}
         <div className="flex items-start gap-3 rounded-2xl border border-emerald-200 bg-emerald-50 p-4">
           <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-emerald-600" />
 
@@ -73,11 +81,14 @@ export default function GlucosePage() {
             </p>
 
             <p className="mt-1 text-sm text-emerald-800">
-              Over time, your glucose readings will be connected with meals, activities, stress, sleep, and other events to understand your personal patterns.
+              Over time, your glucose readings will be connected with meals,
+              activities, stress, sleep, and other events to understand your
+              personal patterns.
             </p>
           </div>
         </div>
 
+        {/* Log Form */}
         {isLogFormOpen && (
           <LogGlucoseForm
             onSubmit={addReading}
@@ -87,23 +98,68 @@ export default function GlucosePage() {
           />
         )}
 
+        {/* Filters */}
         <GlucoseFilters
           filters={filters}
           onChange={setFilters}
         />
 
-        <GlucoseSummary
-          average={averageGlucose}
-          highest={highestGlucose}
-          lowest={lowestGlucose}
-          inRangePercentage={
-            inRangePercentage
-          }
-        />
+        {/* Loading State */}
+        {loading && (
+          <LoadingState
+            message="Loading your glucose readings..."
+          />
+        )}
 
-        <GlucoseChart
-          readings={filteredReadings}
-        />
+        {/* Error State */}
+        {!loading && error && (
+          <ErrorState
+            title="Unable to load glucose readings"
+            message={error.message}
+            onRetry={reloadReadings}
+          />
+        )}
+
+        {/* Empty State */}
+        {!loading &&
+          !error &&
+          filteredReadings.length === 0 && (
+            <EmptyState
+              title="No glucose readings yet"
+              message="Start tracking your glucose levels to see your health patterns here."
+              action={
+                <Button
+                  onClick={() =>
+                    setIsLogFormOpen(true)
+                  }
+                >
+                  <Plus className="mr-2 h-4 w-4" />
+
+                  Log Your First Reading
+                </Button>
+              }
+            />
+          )}
+
+        {/* Data */}
+        {!loading &&
+          !error &&
+          filteredReadings.length > 0 && (
+            <>
+              <GlucoseSummary
+                average={averageGlucose}
+                highest={highestGlucose}
+                lowest={lowestGlucose}
+                inRangePercentage={
+                  inRangePercentage
+                }
+              />
+
+              <GlucoseChart
+                readings={filteredReadings}
+              />
+            </>
+          )}
       </div>
     </main>
   );

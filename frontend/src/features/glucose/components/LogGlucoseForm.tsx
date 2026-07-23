@@ -12,7 +12,7 @@ type LogGlucoseFormProps = {
   onSubmit: (data: {
     value: number;
     context: GlucoseReading["context"];
-    time: string;
+    timestamp: string;
     note?: string;
   }) => void;
 
@@ -52,11 +52,15 @@ export default function LogGlucoseForm({
     ) {
       return;
     }
+    const today = new Date()
+    .toISOString()
+    .split("T")[0];
 
+    const timestamp = `${today}T${time}:00`;
     onSubmit({
       value: glucoseValue,
       context,
-      time,
+      timestamp,
       note,
     });
   };

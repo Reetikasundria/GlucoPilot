@@ -24,14 +24,15 @@ export default function useAsync<T>(
     });
 
   const execute = useCallback(async () => {
-    setState({
-      data: null,
+    setState((previousState) => ({
+      ...previousState,
       loading: true,
       error: null,
-    });
+    }));
 
     try {
-      const data = await asyncFunction();
+      const data =
+        await asyncFunction();
 
       setState({
         data,
@@ -48,11 +49,11 @@ export default function useAsync<T>(
               "Something went wrong"
             );
 
-      setState({
-        data: null,
+      setState((previousState) => ({
+        ...previousState,
         loading: false,
         error: normalizedError,
-      });
+      }));
 
       throw normalizedError;
     }

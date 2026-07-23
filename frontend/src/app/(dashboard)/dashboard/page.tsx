@@ -1,3 +1,5 @@
+"use client";
+
 import DashboardHeader from "@/features/dashboard/components/DashboardHeader";
 import GlucoseCard from "@/features/dashboard/components/GlucoseCard";
 import AIRecommendationCard from "@/features/dashboard/components/AIRecommendationCard";
@@ -8,6 +10,8 @@ import WeeklyInsights from "@/features/dashboard/components/WeeklyInsights";
 import RecentEvents from "@/features/dashboard/components/RecentEvents";
 import FloatingAI from "@/features/dashboard/components/FloatingAI";
 
+import { initialGlucoseReadings } from "@/features/glucose/mockData";
+
 export default function DashboardPage() {
   return (
     <>
@@ -15,12 +19,16 @@ export default function DashboardPage() {
         <DashboardHeader />
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <GlucoseCard />
+          <GlucoseCard
+            readings={initialGlucoseReadings}
+          />
+
           <AIRecommendationCard />
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
           <MealPlanCard />
+
           <ScheduleCard />
         </div>
 
